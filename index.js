@@ -22,6 +22,7 @@ async function run(){
     // onlineTrainer.traningService
     try{
         const traingSeviceCollection =client.db("onlineTrainer").collection("traningService")
+        const reviewCollection=client.db('onlineTrainer').collection('review')
         app.get('/services', async (req, res) => {
             const query = {}
             const cursor = traingSeviceCollection.find(query).limit(3);
@@ -35,12 +36,6 @@ async function run(){
             const services = await cursor.toArray();
             res.send(services);
         });
-        // app.get('/services/:id', async (req, res) => {
-        //     const id = req.params.id;
-        //     const query = {_id: ObjectId(id) };
-        //     const service = await traingSeviceCollection.findOne(query);
-        //     res.send(service);
-        // });
 
         app.get("/service/:id",async(req,res)=>{
             const id=req.params.id;
@@ -50,6 +45,25 @@ async function run(){
 
 
         })
+        app.post('/review', async (req, res) => {
+            const review = req.body;
+            const result = await reviewCollection.insertOne(review);
+            res.send(result);
+        });
+
+        app.get('/review', async (req, res) => {
+            let query = {};
+
+            if (req.query.email) {
+                query = {
+                    email: req.query.email
+                }
+            }
+
+            const cursor = reviewCollection.find(query);
+            const review = await cursor.toArray();
+            res.send(review);
+        });
 
     }
     finally{
