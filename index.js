@@ -19,7 +19,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 console.log(uri);
 
 async function run(){
-    // onlineTrainer.traningService
+    
     try{
         const traingSeviceCollection =client.db("onlineTrainer").collection("traningService")
         const reviewCollection=client.db('onlineTrainer').collection('review')
@@ -64,7 +64,7 @@ async function run(){
             const review = await cursor.toArray();
             res.send(review);
         });
-        //trainerReviewId
+      
 
         app.get('/veiwId', async (req, res) => {
             let query = {};
@@ -82,6 +82,7 @@ async function run(){
 
         app.delete('/review/:id', async (req, res) => {
             const id = req.params.id;
+            console.log(id);
             const query = { _id: ObjectId(id) };
             const result = await reviewCollection.deleteOne(query);
             res.send(result);
