@@ -100,5 +100,5 @@ app.get("/",(req,res)=>{
     res.send("Online Trainer Service Is Running")
 })
 app.listen(port,()=>{
-    console.log(`Online Trainer Service running is on${port}`)
+    console.log(`Online Trainer Service running is on port is : ${port}`)
 })
