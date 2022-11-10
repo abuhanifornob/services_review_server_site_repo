@@ -64,6 +64,29 @@ async function run(){
             const review = await cursor.toArray();
             res.send(review);
         });
+        //trainerReviewId
+
+        app.get('/veiwId', async (req, res) => {
+            let query = {};
+
+            if (req.query.trainerReviewId) {
+                query = {
+                    trainerReviewId: req.query.trainerReviewId
+                }
+            }
+
+            const cursor = reviewCollection.find(query);
+            const view = await cursor.toArray();
+            res.send(view);
+        });
+
+        app.delete('/review/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await reviewCollection.deleteOne(query);
+            res.send(result);
+        })
+
 
     }
     finally{
@@ -71,7 +94,7 @@ async function run(){
     }
 
 }
-run().catch(error=>console.error(erro))
+run().catch(error=>console.error(error))
 
 app.get("/",(req,res)=>{
     res.send("Online Trainer Service Is Running")
